@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AdminDash - Plateforme d'Administration Moderne</title>
+    <link rel="stylesheet" href="../CSS/unified.css" />
+    <script>
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('dashboard-theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const darkModeStored = localStorage.getItem('dashboard-dark-mode') === 'true';
+            const useDark = savedTheme === 'dark'
+                || (savedTheme === 'system' && prefersDark)
+                || (!savedTheme && darkModeStored)
+                || (savedTheme !== 'light' && savedTheme !== 'system' && darkModeStored);
+
+            if (useDark) {
+                document.documentElement.setAttribute('data-dark', 'true');
+                document.body.classList.add('dark');
+                localStorage.setItem('dashboard-dark-mode', 'true');
+            } else {
+                document.documentElement.removeAttribute('data-dark');
+                document.body.classList.remove('dark');
+                localStorage.setItem('dashboard-dark-mode', 'false');
+            }
+        }
+
+        // Execute initialization
+        initializeTheme();
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', initializeTheme);
+    </script>
+    <style>
+        /* Landing page specific styles */
+        .landing-page {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%);
+        }
+
+        body.dark .landing-page {
+            background: linear-gradient(135deg, #0f172a 0%, #1a2844 100%);
+        }
+
+        .nav-bar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.3);
+            padding: var(--spacing-md) var(--spacing-lg);
+        }
+
+        body.dark .nav-bar {
+            background: rgba(30, 41, 59, 0.8);
+            border-bottom-color: rgba(51, 65, 85, 0.3);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--spacing-lg);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #0d6efd 0%, #6610f2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+            margin: 0;
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: var(--spacing-md);
+            align-items: center;
+        }
+
+        .dark-toggle {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            width: 2.3rem;
+            height: 2.3rem;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition);
+        }
+
+        .dark-toggle:hover {
+            background: var(--border-light);
+            transform: scale(1.08);
+        }
+
+        .hero {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px var(--spacing-lg) 80px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 8vw, 3.5rem);
+            margin: 0 0 var(--spacing-lg);
+            color: var(--text);
+            line-height: 1.2;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin: 0 0 var(--spacing-2xl);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .hero-buttons a {
+            text-decoration: none;
+            transition: all var(--transition);
+        }
+
+        .auth-card-preview {
+            max-width: 400px;
+            margin: 60px auto 0;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-2xl);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(13, 110, 253, 0.08);
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-xl);
+            max-width: 1200px;
+            margin: 100px auto 0;
+            padding: 0 var(--spacing-lg);
+        }
+
+        .feature-card {
+            background: var(--bg-secondary);
+            padding: var(--spacing-2xl);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            text-align: center;
+            transition: all var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .feature-card h3 {
+            margin: 0 0 var(--spacing-sm);
+            color: var(--text);
+            font-size: 1.1rem;
+        }
+
+        .feature-card p {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px var(--spacing-lg);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border);
+            margin-top: 100px;
+        }
+
+        @media (max-width: 768px) {
+            .nav-content {
+                flex-direction: column;
+                gap: var(--spacing-md);
+            }
+
+            .hero {
+                padding: 40px var(--spacing-md) 60px;
+            }
+
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .hero-buttons a {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body class="landing-page">
+    <!-- Navigation Bar -->
+    <nav class="nav-bar">
+        <div class="nav-content">
+            <h1 class="logo">AdminDash</h1>
+            <div class="nav-actions">
+                <button class="dark-toggle" id="darkToggle" aria-label="Basculer le mode sombre">🌙</button>
+                <a href="/HTML/signin.html" class="btn btn--ghost">Se connecter</a>
+                <a href="/HTML/signup.html" class="btn btn--primary">S'inscrire</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Tableau de bord administrateur moderne</h1>
+        <p>Gérez votre application avec un interface claire, intuitive et moderne. Accédez à tous les outils dont vous avez besoin en un seul endroit.</p>
+        
+        <div class="hero-buttons">
+            <a href="/HTML/signin.html" class="btn btn--primary">Se connecter</a>
+            <a href="/HTML/signup.html" class="btn btn--ghost">Créer un compte</a>
+        </div>
+
+        <!-- Demo Info -->
+        <div class="auth-card-preview">
+            <h3>Comptes de démonstration</h3>
+            <p style="text-align: left; color: var(--text); margin-bottom: var(--spacing-md);">
+                <strong>Admin:</strong><br>
+                Email: admin@example.com<br>
+                Mot de passe: admin123
+            </p>
+            <p style="text-align: left; color: var(--text);">
+                <strong>Utilisateur:</strong><br>
+                Email: jean@example.com<br>
+                Mot de passe: password123
+            </p>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="feature-card">
+            <div class="feature-icon">📊</div>
+            <h3>Statistiques en temps réel</h3>
+            <p>Visualisez vos données avec des graphiques interactifs et mises à jour instantanément.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">👥</div>
+            <h3>Gestion des utilisateurs</h3>
+            <p>Gérez facilement les utilisateurs, rôles et permissions depuis un tableau intuitif.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🔐</div>
+            <h3>Authentification sécurisée</h3>
+            <p>Système d'authentification moderne avec support du dark mode et stockage sécurisé.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">📱</div>
+            <h3>Design responsive</h3>
+            <p>Interface adaptée à tous les appareils - desktop, tablette ou mobile.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">⚡</div>
+            <h3>Performance optimisée</h3>
+            <p>Interface rapide et fluide avec animations et transitions élégantes.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🎨</div>
+            <h3>Design moderne</h3>
+            <p>Interface épurée avec une palette de couleurs contemporaine et cohérente.</p>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2026 AdminDash. Tous droits réservés.</p>
+    </footer>
+
+    <script src="../SCRIPTS/auth.js"></script>
+    <script>
+        // Dark mode toggle
+        const darkToggle = document.getElementById('darkToggle');
+        const STORAGE_KEY = 'dashboard-dark-mode';
+
+        function setDarkMode(isDark) {
+            if (isDark) {
+                document.body.classList.add('dark');
+                darkToggle.textContent = '☀️';
+            } else {
+                document.body.classList.remove('dark');
+                darkToggle.textContent = '🌙';
+            }
+            localStorage.setItem(STORAGE_KEY, isDark ? 'true' : 'false');
+        }
+
+        // Load dark mode preference
+        const isDarkMode = localStorage.getItem(STORAGE_KEY) === 'true';
+        setDarkMode(isDarkMode);
+
+        darkToggle.addEventListener('click', () => {
+            const isDark = document.body.classList.toggle('dark');
+            setDarkMode(isDark);
+        });
+
+        // Redirect to dashboard if already logged in
+        if (window.auth.isLoggedIn()) {
+            window.auth.redirectToDashboard();
+        }
+    </script>
+</body>
+</html>

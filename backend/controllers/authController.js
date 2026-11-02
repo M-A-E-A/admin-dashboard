@@ -1,0 +1,149 @@
+const bcrypt = require('bcryptjs');
+const { findUserByEmail, createUser, updateUser } = require('../models/User');
+const generateToken = require('../utils/generateToken');
+
+const validateEmail = (email) => {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+};
+
+const registerUser = async (req, res) => {
+  const { name, email, password } = req.body;
+
+  if (!name || !email || !password) {
+    return res.status(400).json({ message: 'Le nom, l’email et le mot de passe sont requis.' });
+  }
+
+  if (!validateEmail(email)) {
+    return res.status(400).json({ message: 'Format d’email invalide.' });
+  }
+
+  if (password.length < 6) {
+    return res.status(400).json({ message: 'Le mot de passe doit contenir au moins 6 caractères.' });
+  }
+
+  const existingUser = await findUserByEmail(email);
+  if (existingUser) {
+    return res.status(400).json({ message: 'Un utilisateur existe déjà avec cet email.' });
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+  const user = await createUser({ name, email, password: hashedPassword });
+
+  if (user) {
+    return res.status(201).json({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      token: generateToken(user.id),
+    });
+  }
+
+  res.status(400).json({ message: 'Impossible de créer l’utilisateur.' });
+};
+
+const loginUser = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({ 
+        success: false,
+        data: null,
+        message: 'Email and password are required.' 
+      });
+    }
+
+    const user = await findUserByEmail(email);
+    if (!user) {
+      return res.status(401).json({ 
+        success: false,
+        data: null,
+        message: 'Invalid email or password.' 
+      });
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(401).json({ 
+        success: false,
+        data: null,
+        message: 'Invalid email or password.' 
+      });
+    }
+
+    return res.json({
+      success: true,
+      data: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        token: generateToken(user.id),
+      },
+      message: 'Login successful.'
+    });
+  } catch (error) {
+    console.error('Login error:', error);
+    next(error);
+  }
+};
+
+const resetPassword = async (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ message: 'L’email et le nouveau mot de passe sont requis.' });
+  }
+
+  if (!validateEmail(email)) {
+    return res.status(400).json({ message: 'Format d’email invalide.' });
+  }
+
+  if (password.length < 6) {
+    return res.status(400).json({ message: 'Le mot de passe doit contenir au moins 6 caractères.' });
+  }
+
+  const user = await findUserByEmail(email);
+  if (!user) {
+    return res.status(200).json({ message: 'Si cet email existe, le mot de passe a été réinitialisé.' });
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+  await updateUser(user.id, { password: hashedPassword });
+
+  res.json({ message: 'Le mot de passe a été réinitialisé avec succès.' });
+};
+
+const getCurrentUser = async (req, res, next) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({ 
+        success: false,
+        data: null,
+        message: 'Not authorized.' 
+      });
+    }
+
+    res.json({
+      success: true,
+      data: {
+        id: req.user.id,
+        name: req.user.name,
+        email: req.user.email,
+        role: req.user.role,
+      },
+      message: 'User retrieved successfully.'
+    });
+  } catch (error) {
+    console.error('Get current user error:', error);
+    next(error);
+  }
+};
+
+module.exports = {
+  registerUser,
+  loginUser,
+  resetPassword,
+  getCurrentUser,
+};

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Se connecter - AdminDash</title>
+    <link rel="stylesheet" href="../CSS/style.css" />
+    <link rel="stylesheet" href="../CSS/components.css" />
+    <link rel="stylesheet" href="../CSS/auth.css" />
+    <link rel="stylesheet" href="../CSS/global.css" />
+    <script src="../SCRIPTS/auth.js"></script>
+    <script src="../SCRIPTS/page-protection.js"></script>
+</head>
+<body class="auth-page">
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1 class="auth-title">AdminDash</h1>
+                <p class="auth-subtitle">Connectez-vous à votre compte</p>
+            </div>
+
+            <form id="signInForm" class="auth-form">
+                <div class="auth-form-group">
+                    <label for="email">Email</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        placeholder="votre@email.com"
+                        required
+                    />
+                    <span class="form-error" id="emailError"></span>
+                </div>
+
+                <div class="auth-form-group">
+                    <label for="password">Mot de passe</label>
+                    <div class="password-wrapper">
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            placeholder="••••••••"
+                            required
+                        />
+                        <button 
+                            type="button" 
+                            class="password-toggle" 
+                            id="passwordToggle"
+                            aria-label="Afficher/Masquer le mot de passe"
+                        >
+                            👁️
+                        </button>
+                    </div>
+                    <span class="form-error" id="passwordError"></span>
+                </div>
+
+                <div class="auth-form-options">
+                    <div class="checkbox-wrapper">
+                        <input 
+                            type="checkbox" 
+                            id="rememberMe" 
+                            name="rememberMe"
+                        />
+                        <label for="rememberMe">Se souvenir de moi</label>
+                    </div>
+                    <a href="/HTML/forgot-password.html" class="auth-link-small">Mot de passe oublié?</a>
+                </div>
+
+                <button type="submit" class="btn btn--primary auth-btn">Se connecter</button>
+
+                <span class="form-error" id="generalError"></span>
+            </form>
+
+            <div class="auth-footer">
+                <p>Pas encore de compte? <a href="/HTML/signup.html" class="auth-link">S'inscrire</a></p>
+            </div>
+        </div>
+
+        <div class="auth-background">
+            <div class="gradient-orb orb-1"></div>
+            <div class="gradient-orb orb-2"></div>
+            <div class="gradient-orb orb-3"></div>
+        </div>
+    </div>
+
+    <script src="../SCRIPTS/theme.js"></script>
+    <script>
+        // Sign In Form Handler
+        const signInForm = document.getElementById('signInForm');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const passwordToggle = document.getElementById('passwordToggle');
+        const rememberMe = document.getElementById('rememberMe');
+        const emailError = document.getElementById('emailError');
+        const passwordError = document.getElementById('passwordError');
+        const generalError = document.getElementById('generalError');
+        const submitButton = signInForm.querySelector('button[type="submit"]');
+
+        // Password visibility toggle
+        passwordToggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            passwordToggle.textContent = type === 'password' ? '👁️' : '👁️‍🗨️';
+            passwordToggle.classList.toggle('active');
+        });
+
+        // Handle sign in form submit
+        signInForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            emailError.textContent = '';
+            passwordError.textContent = '';
+            generalError.textContent = '';
+
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+            let isValid = true;
+
+            if (!email) {
+                emailError.textContent = 'Email is required';
+                isValid = false;
+            } else if (!isValidEmail(email)) {
+                emailError.textContent = 'Invalid email format';
+                isValid = false;
+            }
+
+            if (!password) {
+                passwordError.textContent = 'Password is required';
+                isValid = false;
+            } else if (password.length < 6) {
+                passwordError.textContent = 'Password must be at least 6 characters';
+                isValid = false;
+            }
+
+            if (!isValid) return;
+
+            try {
+                submitButton.disabled = true;
+                submitButton.textContent = 'Connexion...';
+
+                const response = await window.auth.authLogin(email, password);
+                window.auth.saveSession(response);
+
+                if (rememberMe.checked) {
+                    localStorage.setItem('dashboard-remember-email', email);
+                } else {
+                    localStorage.removeItem('dashboard-remember-email');
+                }
+
+                window.auth.redirectToDashboard();
+            } catch (error) {
+                generalError.textContent = error.message || 'Connexion impossible. Vérifiez votre email et votre mot de passe.';
+                submitButton.disabled = false;
+                submitButton.textContent = 'Se connecter';
+            }
+        });
+
+        function isValidEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const rememberedEmail = localStorage.getItem('dashboard-remember-email');
+            if (rememberedEmail) {
+                emailInput.value = rememberedEmail;
+                rememberMe.checked = true;
+            }
+        });
+    </script>
+</body>
+</html>

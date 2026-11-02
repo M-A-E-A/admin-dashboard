@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Statistiques - Dashboard Administrateur Moderne</title>
+    <link rel="stylesheet" href="../CSS/style.css" />
+    <link rel="stylesheet" href="../CSS/components.css" />
+    <link rel="stylesheet" href="../CSS/global.css" />
+    <script src="../SCRIPTS/auth.js"></script>
+    <script src="../SCRIPTS/page-protection.js"></script>
+</head>
+<body class="protected-page stats-page">
+    <div class="app" id="app">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar__brand">
+                <svg class="sidebar__brand-icon" width="28" height="28" viewBox="0 0 28 28" fill="none">
+                    <rect width="28" height="28" rx="7" fill="url(#gradient-brand)"/>
+                    <path d="M7 14L12 9L18 15L21 12" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                    <defs>
+                        <linearGradient id="gradient-brand" x1="0" y1="0" x2="28" y2="28">
+                            <stop offset="0%" stop-color="#0d6efd"/>
+                            <stop offset="100%" stop-color="#6610f2"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <h1>AdminDash</h1>
+            </div>
+            <nav class="sidebar__nav" aria-label="Navigation principale">
+                <a href="/HTML/index.html" class="sidebar__link" data-label="Tableau de bord">
+                    <svg class="sidebar__icon-svg" width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M2 4a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V4zm4.5 6a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm2-2.5a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"/>
+                    </svg>
+                    <span class="sidebar__label">Tableau de bord</span>
+                </a>
+                <a href="/HTML/utilisateurs.html" class="sidebar__link" data-label="Utilisateurs">
+                    <svg class="sidebar__icon-svg" width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"/>
+                    </svg>
+                    <span class="sidebar__label">Utilisateurs</span>
+                </a>
+                <a href="/HTML/statistiques.html" class="sidebar__link sidebar__link--active" data-label="Statistiques">
+                    <svg class="sidebar__icon-svg" width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+                    </svg>
+                    <span class="sidebar__label">Statistiques</span>
+                </a>
+                <a href="/HTML/transactions.html" class="sidebar__link" data-label="Transactions">
+                    <svg class="sidebar__icon-svg" width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4z"/>
+                    </svg>
+                    <span class="sidebar__label">Transactions</span>
+                </a>
+                <a href="/HTML/parametres.html" class="sidebar__link" data-label="Paramètres">
+                    <svg class="sidebar__icon-svg" width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M10.894 2.553a1 1 0 00-1.788 0l-.894 3.776a1 1 0 01-.949.749H3.645a1 1 0 00-.592 1.82l3.102 2.253a1 1 0 01-.364 1.657L2.163 13.97a1 1 0 001.286 1.471l3.102-2.254a1 1 0 011.658.364l.894 3.776a1 1 0 001.788 0l.894-3.776a1 1 0 01.658-1.657l3.102 2.253a1 1 0 001.286-1.47l-3.102-2.254a1 1 0 01-.364-1.657l3.102-2.253a1 1 0 00-.592-1.82h-3.996a1 1 0 01-.949-.749l-.894-3.776z"/>
+                    </svg>
+                    <span class="sidebar__label">Paramètres</span>
+                </a>
+            </nav>
+        </aside>
+
+        <div class="main">
+            <header class="topbar">
+                <div class="topbar__left">
+                    <button class="btn btn--icon" id="sidebarToggle" aria-label="Ouvrir la barre latérale">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"/>
+                        </svg>
+                    </button>
+                    <div class="page-heading">
+                        <h2>Statistiques</h2>
+                        <p>Analyse et indicateurs de performance</p>
+                    </div>
+                </div>
+
+                <div class="topbar__center">
+                    <div class="search-container">
+                        <div class="search-input-wrapper">
+                            <svg class="search-icon" width="18" height="18" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"/>
+                            </svg>
+                            <input class="search-input" id="globalSearch" type="search" placeholder="Rechercher une page..." aria-label="Rechercher une page" />
+                        </div>
+                        <div class="search-results" id="searchResults" hidden></div>
+                    </div>
+                </div>
+
+                <div class="topbar__right">
+                    <div class="theme-switch-container">
+                        <button class="btn btn--icon theme-switch-btn" id="themeToggle" aria-label="Basculer le thème">
+                            <svg class="theme-icon-sun" width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v2a1 1 0 11-2 0V3a1 1 0 011-1zm4.22 1.78a1 1 0 011.414 0l1.414 1.414a1 1 0 01-1.414 1.414L13.22 3.22a1 1 0 010-1.414zm2.828 4.22a1 1 0 011 1v2a1 1 0 11-2 0v-2a1 1 0 011-1zm1.78 4.22a1 1 0 011.414 0l1.414 1.414a1 1 0 01-1.414 1.414l-1.414-1.414a1 1 0 010-1.414zM10 14a4 4 0 110-8 4 4 0 010 8z"/>
+                            </svg>
+                            <svg class="theme-icon-moon" width="20" height="20" viewBox="0 0 20 20" fill="currentColor" style="display: none;">
+                                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
+                            </svg>
+                        </button>
+                        <div class="theme-menu" id="themeMenu" hidden>
+                            <button class="theme-menu-item" data-theme="light">Clair</button>
+                            <button class="theme-menu-item" data-theme="dark">Sombre</button>
+                            <button class="theme-menu-item" data-theme="system">Système</button>
+                        </div>
+                    </div>
+
+                    <div class="notification-container">
+                        <button class="btn btn--icon notification-btn" id="notificationBell" aria-label="Notifications" type="button">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M10.5 1.5H9.5C5.36 1.5 2 4.86 2 9v4.5L1 16.5h18L18 13.5V9c0-4.14-3.36-7.5-7.5-7.5zm0 13H9.5v1.5h1V14.5zm0-3H9.5V6h1v5.5z"/>
+                            </svg>
+                            <span class="notification-badge" id="notificationBadge">2</span>
+                        </button>
+                        <div class="notification-dropdown" id="notificationDropdown" hidden>
+                            <div class="notification-header">
+                                <h4>Notifications</h4>
+                                <button class="btn btn--text" id="clearNotifications" type="button">Effacer tout</button>
+                            </div>
+                            <div class="notification-list" id="notificationList">
+                                <div class="notification-item">
+                                    <div class="notification-icon">!</div>
+                                    <div class="notification-content">
+                                        <p class="notification-title">Statistiques disponibles</p>
+                                        <p class="notification-time">A l'instant</p>
+                                    </div>
+                                </div>
+                                <div class="notification-item">
+                                    <div class="notification-icon">!</div>
+                                    <div class="notification-content">
+                                        <p class="notification-title">Rapports demo actifs</p>
+                                        <p class="notification-time">Aujourd'hui</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="account-menu">
+                        <button class="avatar avatar--interactive profile-avatar" id="profileAvatar" aria-label="Profil utilisateur" type="button">
+                            <span id="avatarText">AD</span>
+                        </button>
+                        <div class="profile-menu" id="profileMenu" hidden>
+                            <a class="profile-menu__item" href="/HTML/parametres.html">Parametres</a>
+                            <button class="profile-menu__item" id="logoutBtn" data-action="logout" type="button" aria-label="Deconnexion">Deconnexion</button>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main class="content dashboard-content">
+    <div class="dashboard-grid">
+        <!-- LEFT COLUMN - Main Content -->
+        <div class="dashboard-left">
+            <!-- Top Stat Cards Row -->
+            <div class="stats-row">
+                <div class="stat-card">
+                    <div class="stat-card-icon">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                            <circle cx="16" cy="16" r="14" fill="rgba(102, 126, 234, 0.1)"/>
+                            <path d="M16 10V22M10 16H22" stroke="#667eea" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="stat-card-content">
+                        <p class="stat-card-label">Conversations</p>
+                        <h3 class="stat-card-value" data-value="1248">1248</h3>
+                        <span class="stat-card-change positive">+8% (7 days)</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-card-icon">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                            <circle cx="16" cy="16" r="14" fill="rgba(102, 126, 234, 0.1)"/>
+                            <rect x="9" y="10" width="14" height="12" rx="1" stroke="#667eea" stroke-width="2"/>
+                            <path d="M12 14H20" stroke="#667eea" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="stat-card-content">
+                        <p class="stat-card-label">Total Projects</p>
+                        <h3 class="stat-card-value" data-value="250">250</h3>
+                        <span class="stat-card-change positive">+10% (7 days)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Donut Charts Section -->
+            <div class="donut-charts-section">
+                <div class="donut-chart">
+                    <svg viewBox="0 0 120 120" class="donut-svg">
+                        <circle cx="60" cy="60" r="50" fill="none" stroke="#f0f0f0" stroke-width="12"/>
+                        <circle cx="60" cy="60" r="50" fill="none" stroke="#0d6efd" stroke-width="12" 
+                                stroke-dasharray="254.47 318.31" stroke-dashoffset="0" 
+                                style="transform: rotate(-90deg); transform-origin: 50% 50%;"/>
+                    </svg>
+                    <div class="donut-content">
+                        <span class="donut-value">81%</span>
+                        <span class="donut-label">Total Project</span>
+                    </div>
+                </div>
+
+                <div class="donut-chart">
+                    <svg viewBox="0 0 120 120" class="donut-svg">
+                        <circle cx="60" cy="60" r="50" fill="none" stroke="#f0f0f0" stroke-width="12"/>
+                        <circle cx="60" cy="60" r="50" fill="none" stroke="#0d6efd" stroke-width="12" 
+                                stroke-dasharray="70.23 318.31" stroke-dashoffset="0"
+                                style="transform: rotate(-90deg); transform-origin: 50% 50%;"/>
+                    </svg>
+                    <div class="donut-content">
+                        <span class="donut-value">22%</span>
+                        <span class="donut-label">Customer Growth</span>
+                    </div>
+                </div>
+
+                <div class="donut-chart">
+                    <svg viewBox="0 0 120 120" class="donut-svg">
+                        <circle cx="60" cy="60" r="50" fill="none" stroke="#f0f0f0" stroke-width="12"/>
+                        <circle cx="60" cy="60" r="50" fill="none" stroke="#0d6efd" stroke-width="12" 
+                                stroke-dasharray="197.45 318.31" stroke-dashoffset="0"
+                                style="transform: rotate(-90deg); transform-origin: 50% 50%;"/>
+                    </svg>
+                    <div class="donut-content">
+                        <span class="donut-value">62%</span>
+                        <span class="donut-label">Total Engagement</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project List Section -->
+            <div class="card projects-card">
+                <div class="card-header">
+                    <h3>Recent Projects</h3>
+                </div>
+                <div class="projects-list">
+                    <div class="project-item">
+                        <div class="project-avatar">
+                            <span>SW</span>
+                        </div>
+                        <div class="project-info">
+                            <p class="project-name">Salary Web Application</p>
+                        </div>
+                        <div class="project-value">$210</div>
+                        <button class="project-action" aria-label="Edit">
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                <path d="M3 14.25V15H3.75L12.81 5.94L12.06 5.19L3 14.25Z" fill="#667eea"/>
+                                <path d="M13.81 3.56L14.56 2.81C14.85 2.52 14.85 2.05 14.56 1.76L13.24 0.44C12.95 0.15 12.48 0.15 12.19 0.44L11.44 1.19L13.81 3.56Z" fill="#667eea"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="project-item">
+                        <div class="project-avatar">
+                            <span>PP</span>
+                        </div>
+                        <div class="project-info">
+                            <p class="project-name">Personal Portfolio Website</p>
+                        </div>
+                        <div class="project-value">$110</div>
+                        <button class="project-action" aria-label="Edit">
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                <path d="M3 14.25V15H3.75L12.81 5.94L12.06 5.19L3 14.25Z" fill="#667eea"/>
+                                <path d="M13.81 3.56L14.56 2.81C14.85 2.52 14.85 2.05 14.56 1.76L13.24 0.44C12.95 0.15 12.48 0.15 12.19 0.44L11.44 1.19L13.81 3.56Z" fill="#667eea"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="project-item">
+                        <div class="project-avatar">
+                            <span>WA</span>
+                        </div>
+                        <div class="project-info">
+                            <p class="project-name">Windows Application - Codex</p>
+                        </div>
+                        <div class="project-value">$350</div>
+                        <button class="project-action" aria-label="Edit">
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                <path d="M3 14.25V15H3.75L12.81 5.94L12.06 5.19L3 14.25Z" fill="#667eea"/>
+                                <path d="M13.81 3.56L14.56 2.81C14.85 2.52 14.85 2.05 14.56 1.76L13.24 0.44C12.95 0.15 12.48 0.15 12.19 0.44L11.44 1.19L13.81 3.56Z" fill="#667eea"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="project-item">
+                        <div class="project-avatar">
+                            <span>UD</span>
+                        </div>
+                        <div class="project-info">
+                            <p class="project-name">User interface Design</p>
+                        </div>
+                        <div class="project-value">$75</div>
+                        <button class="project-action" aria-label="Edit">
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                <path d="M3 14.25V15H3.75L12.81 5.94L12.06 5.19L3 14.25Z" fill="#667eea"/>
+                                <path d="M13.81 3.56L14.56 2.81C14.85 2.52 14.85 2.05 14.56 1.76L13.24 0.44C12.95 0.15 12.48 0.15 12.19 0.44L11.44 1.19L13.81 3.56Z" fill="#667eea"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="project-item">
+                        <div class="project-avatar">
+                            <span>SM</span>
+                        </div>
+                        <div class="project-info">
+                            <p class="project-name">Salary Management System</p>
+                        </div>
+                        <div class="project-value">$450</div>
+                        <button class="project-action" aria-label="Edit">
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                <path d="M3 14.25V15H3.75L12.81 5.94L12.06 5.19L3 14.25Z" fill="#667eea"/>
+                                <path d="M13.81 3.56L14.56 2.81C14.85 2.52 14.85 2.05 14.56 1.76L13.24 0.44C12.95 0.15 12.48 0.15 12.19 0.44L11.44 1.19L13.81 3.56Z" fill="#667eea"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="project-item">
+                        <div class="project-avatar">
+                            <span>RE</span>
+                        </div>
+                        <div class="project-info">
+                            <p class="project-name">Royal Enterprise Application</p>
+                        </div>
+                        <div class="project-value">$1250</div>
+                        <button class="project-action" aria-label="Edit">
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                <path d="M3 14.25V15H3.75L12.81 5.94L12.06 5.19L3 14.25Z" fill="#667eea"/>
+                                <path d="M13.81 3.56L14.56 2.81C14.85 2.52 14.85 2.05 14.56 1.76L13.24 0.44C12.95 0.15 12.48 0.15 12.19 0.44L11.44 1.19L13.81 3.56Z" fill="#667eea"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT COLUMN - Secondary Content -->
+        <div class="dashboard-right">
+            <!-- Views Report Card -->
+            <div class="card views-report">
+                <div class="card-header">
+                    <div>
+                        <h3>Views Report</h3>
+                        <p class="views-subtitle">Last 30 days</p>
+                    </div>
+                    <div class="report-filters">
+                        <button class="filter-btn" data-period="7">07 Days</button>
+                        <button class="filter-btn active" data-period="30">30 Days</button>
+                        <button class="filter-btn" data-period="180">6 Months</button>
+                        <button class="filter-btn" data-period="7">7 Days</button>
+                    </div>
+                </div>
+
+                <div class="views-stats">
+                    <div class="view-stat">
+                        <span class="stat-label">Visitor</span>
+                        <span class="stat-number">395</span>
+                        <span class="stat-sub">348.9 ↑</span>
+                    </div>
+                    <div class="view-stat">
+                        <span class="stat-label">New Visitors</span>
+                        <span class="stat-number">932</span>
+                        <span class="stat-sub">563 ↑</span>
+                    </div>
+                    <div class="view-stat">
+                        <span class="stat-label">Average engagement time</span>
+                        <span class="stat-number">1m 50</span>
+                        <span class="stat-sub">250 ↑</span>
+                    </div>
+                    <div class="view-stat">
+                        <span class="stat-label">Total Visitors</span>
+                        <span class="stat-number">150K</span>
+                        <span class="stat-sub">250 ↑</span>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <svg class="line-chart" viewBox="0 0 600 200">
+                        <!-- Grid lines -->
+                        <line x1="0" y1="50" x2="600" y2="50" stroke="#f0f0f0" stroke-width="1"/>
+                        <line x1="0" y1="100" x2="600" y2="100" stroke="#f0f0f0" stroke-width="1"/>
+                        <line x1="0" y1="150" x2="600" y2="150" stroke="#f0f0f0" stroke-width="1"/>
+
+                        <!-- Background area -->
+                        <defs>
+                            <linearGradient id="chartGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#0d6efd;stop-opacity:0.16" />
+                                <stop offset="100%" style="stop-color:#0d6efd;stop-opacity:0" />
+                            </linearGradient>
+                        </defs>
+                        <path d="M 0 80 L 50 65 L 100 75 L 150 50 L 200 60 L 250 45 L 300 40 L 350 55 L 400 50 L 450 35 L 500 45 L 550 30 L 600 25 L 600 200 L 0 200 Z" 
+                              fill="url(#chartGradient)"/>
+
+                        <!-- Line -->
+                        <polyline points="0 80, 50 65, 100 75, 150 50, 200 60, 250 45, 300 40, 350 55, 400 50, 450 35, 500 45, 550 30, 600 25" 
+                                  fill="none" stroke="#0d6efd" stroke-width="2" stroke-linejoin="round"/>
+
+                        <!-- X-axis labels -->
+                        <text x="25" y="190" font-size="12" fill="#999" text-anchor="middle">02</text>
+                        <text x="100" y="190" font-size="12" fill="#999" text-anchor="middle">03</text>
+                        <text x="175" y="190" font-size="12" fill="#999" text-anchor="middle">04</text>
+                        <text x="250" y="190" font-size="12" fill="#999" text-anchor="middle">05</text>
+                        <text x="325" y="190" font-size="12" fill="#999" text-anchor="middle">06</text>
+                        <text x="400" y="190" font-size="12" fill="#999" text-anchor="middle">07</text>
+                        <text x="475" y="190" font-size="12" fill="#999" text-anchor="middle">08</text>
+                        <text x="550" y="190" font-size="12" fill="#999" text-anchor="middle">09</text>
+
+                        <!-- Y-axis labels -->
+                        <text x="585" y="55" font-size="12" fill="#999" text-anchor="end">60</text>
+                        <text x="585" y="155" font-size="12" fill="#999" text-anchor="end">40</text>
+                        <text x="585" y="25" font-size="12" fill="#999" text-anchor="end">80</text>
+                    </svg>
+                </div>
+
+                <div class="report-footer">
+                    <div class="date-info">Dec 2023 <br/> <strong>2500</strong></div>
+                    <button class="btn-export">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M8 0C3.58 0 0 3.58 0 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm3 9H9v3H7V9H5l3-4 3 4z"/>
+                        </svg>
+                        Export PDF
+                    </button>
+                </div>
+            </div>
+
+            <!-- World Map Section -->
+            <div class="card world-map-card">
+                <div class="card-header">
+                    <h3>Users by Country</h3>
+                </div>
+
+                <div class="map-and-stats">
+                    <div class="world-map">
+                        <svg viewBox="0 0 960 600" class="map-svg" aria-label="Carte du monde des utilisateurs">
+                            <defs>
+                                <linearGradient id="mapGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#0d6efd;stop-opacity:0.16" />
+                                    <stop offset="100%" style="stop-color:#6610f2;stop-opacity:0.72" />
+                                </linearGradient>
+                                <linearGradient id="markerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#4c95ff;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#0d6efd;stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+
+                            <path d="M100 190 c42 -24 92 -20 138 -4 c22 8 46 24 64 44 c14 16 24 36 28 56 c5 24 2 52 -10 72 c-14 24 -40 42 -68 46 c-36 6 -74 -8 -108 -28 c-24 -14 -44 -32 -56 -56 c-12 -24 -14 -50 -8 -76 c4 -16 12 -30 20 -40 z"
+                                  fill="url(#mapGradient)" stroke="#0d6efd" stroke-width="2" opacity="0.95"/>
+                            <path d="M130 350 c24 16 46 34 60 56 c12 18 16 40 12 62 c-4 22 -18 42 -34 56 c-14 12 -32 18 -50 18 c-18 0 -34 -8 -46 -22 c-12 -14 -18 -32 -18 -50 c0 -18 6 -38 18 -54 c12 -18 30 -30 48 -46 z"
+                                  fill="url(#mapGradient)" stroke="#4c95ff" stroke-width="2" opacity="0.92"/>
+                            <path d="M300 130 c26 -16 56 -18 86 -10 c20 6 38 16 54 30 c20 18 34 42 40 68 c6 24 4 50 -8 72 c-14 26 -38 46 -64 56 c-24 8 -52 8 -76 -2 c-18 -8 -34 -20 -44 -36 c-12 -18 -16 -40 -12 -62 c4 -22 16 -42 34 -58 c18 -16 40 -28 64 -38 z"
+                                  fill="url(#mapGradient)" stroke="#0d6efd" stroke-width="2" opacity="0.94"/>
+                            <path d="M530 150 c36 -18 78 -12 114 10 c24 14 44 34 56 58 c12 24 16 52 10 78 c-6 24 -22 46 -42 62 c-24 20 -54 32 -86 34 c-28 2 -56 -6 -78 -20 c-20 -12 -34 -30 -40 -52 c-8 -28 0 -58 20 -80 c18 -18 44 -32 74 -40 z"
+                                  fill="url(#mapGradient)" stroke="#0d6efd" stroke-width="2" opacity="0.94"/>
+                            <path d="M760 390 c22 -8 44 -4 64 10 c14 10 24 24 28 40 c4 14 0 30 -10 42 c-8 10 -20 18 -34 20 c-16 2 -32 -4 -44 -16 c-12 -14 -16 -34 -12 -52 c4 -16 14 -30 24 -44 z"
+                                  fill="url(#mapGradient)" stroke="#4c95ff" stroke-width="2" opacity="0.92"/>
+
+                            <circle cx="180" cy="170" r="12" fill="url(#markerGradient)" opacity="0.95"/>
+                            <circle cx="360" cy="140" r="10" fill="url(#markerGradient)" opacity="0.95"/>
+                            <circle cx="520" cy="220" r="12" fill="url(#markerGradient)" opacity="0.95"/>
+                            <circle cx="720" cy="260" r="10" fill="url(#markerGradient)" opacity="0.95"/>
+                            <circle cx="620" cy="360" r="9" fill="url(#markerGradient)" opacity="0.95"/>
+                        </svg>
+                    </div>
+
+                    <div class="top-countries">
+                        <h4>Top Countries</h4>
+                        <div class="country-list">
+                            <div class="country-item">
+                                <span class="country-name">United Kingdom</span>
+                                <span class="country-count">192</span>
+                                <div class="country-bar" style="width: 100%;">
+                                    <div class="bar-fill" style="width: 100%;"></div>
+                                </div>
+                            </div>
+
+                            <div class="country-item">
+                                <span class="country-name">India</span>
+                                <span class="country-count">64</span>
+                                <div class="country-bar" style="width: 100%;">
+                                    <div class="bar-fill" style="width: 33%;"></div>
+                                </div>
+                            </div>
+
+                            <div class="country-item">
+                                <span class="country-name">Nepal</span>
+                                <span class="country-count">11</span>
+                                <div class="country-bar" style="width: 100%;">
+                                    <div class="bar-fill" style="width: 5%;"></div>
+                                </div>
+                            </div>
+
+                            <div class="country-item">
+                                <span class="country-name">China</span>
+                                <span class="country-count">8</span>
+                                <div class="country-bar" style="width: 100%;">
+                                    <div class="bar-fill" style="width: 4%;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <a href="#" class="view-countries-link">
+                            View Countries
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M6 12l4-4-4-4" stroke="#ff9500" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+            </main>
+        </div>
+    </div>
+
+<style>
+/* Dashboard Main Content Area */
+.dashboard-content {
+    padding: 24px 32px;
+    width: 100%;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Stats Row */
+.stats-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.stat-card {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    background: var(--bg-secondary);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+.stat-card-icon {
+    flex-shrink: 0;
+}
+
+.stat-card-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.stat-card-label {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+.stat-card-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text);
+    margin: 0;
+}
+
+.stat-card-change {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.stat-card-change.positive {
+    color: #10b981;
+}
+
+/* Donut Charts Section */
+.donut-charts-section {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+    background: var(--bg-secondary);
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.donut-chart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.donut-svg {
+    width: 100%;
+    max-width: 120px;
+    height: auto;
+}
+
+.donut-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.donut-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.donut-label {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+/* Card Base */
+.card {
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.card-header {
+    padding: 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.card-header h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+}
+
+/* Projects List */
+.projects-card {
+    margin-bottom: 24px;
+}
+
+.projects-list {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.project-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.2s;
+}
+
+.project-item:hover {
+    background: #f9f9f9;
+}
+
+.project-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.project-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.project-name {
+    margin: 0;
+    font-size: 13px;
+    color: var(--text);
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.project-value {
+    font-size: 13px;
+    font-weight: 600;
+    color: #667eea;
+    min-width: 50px;
+}
+
+.project-action {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s;
+}
+
+.project-action:hover {
+    opacity: 0.7;
+}
+
+/* Views Report */
+.views-report {
+    margin-bottom: 24px;
+}
+
+.report-filters {
+    display: flex;
+    gap: 8px;
+}
+
+.filter-btn {
+    padding: 6px 12px;
+    background: #f0f0f0;
+    border: none;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.filter-btn.active {
+    background: #667eea;
+    color: white;
+}
+
+.filter-btn:hover:not(.active) {
+    background: #e0e0e0;
+}
+
+.views-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    padding: 0 20px 16px;
+    border-bottom: 1px solid var(--border);
+}
+
+.view-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.stat-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-number {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.stat-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+.chart-container {
+    padding: 16px 20px;
+}
+
+.line-chart {
+    width: 100%;
+    height: auto;
+    min-height: 180px;
+}
+
+.report-footer {
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #f0f0f0;
+}
+
+.date-info {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
+.date-info strong {
+    color: var(--text);
+    font-size: 14px;
+}
+
+.btn-export {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    background: #667eea;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-export:hover {
+    background: #5568d3;
+    transform: translateY(-1px);
+}
+
+/* World Map */
+.world-map-card {
+    margin-bottom: 24px;
+}
+
+.map-and-stats {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 20px;
+}
+
+.world-map {
+    width: 100%;
+    height: auto;
+    min-height: 220px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.map-svg {
+    width: 100%;
+    height: 100%;
+}
+
+.top-countries {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.top-countries h4 {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.country-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.country-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+}
+
+.country-name {
+    flex: 1;
+    color: var(--text);
+    font-weight: 500;
+}
+
+.country-count {
+    min-width: 30px;
+    text-align: right;
+    color: var(--text);
+    font-weight: 600;
+}
+
+.country-bar {
+    flex: 0 0 60px;
+    height: 6px;
+    background: #f0f0f0;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ff9500 0%, #ffb347 100%);
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}
+
+.country-item:hover .bar-fill {
+    filter: brightness(1.1);
+}
+
+.view-countries-link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #ff9500;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 12px;
+    margin-top: 8px;
+    transition: all 0.2s;
+}
+
+.view-countries-link:hover {
+    gap: 10px;
+}
+
+/* Right Column */
+.dashboard-right {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stats-row {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .donut-charts-section {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-content {
+        padding: 16px;
+    }
+
+    .stats-row {
+        grid-template-columns: 1fr;
+    }
+
+    .donut-charts-section {
+        grid-template-columns: 1fr;
+    }
+
+    .report-filters {
+        flex-wrap: wrap;
+    }
+
+    .views-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .map-and-stats {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Dark mode support */
+[data-dark="true"] .dashboard-content {
+    color: #fff;
+}
+
+[data-dark="true"] .stat-card,
+[data-dark="true"] .card,
+[data-dark="true"] .donut-charts-section {
+    background: #1e293b;
+}
+
+[data-dark="true"] .stat-card-label,
+[data-dark="true"] .donut-label,
+[data-dark="true"] .stat-label,
+[data-dark="true"] .project-name,
+[data-dark="true"] .filter-btn {
+    color: #94a3b8;
+}
+
+[data-dark="true"] .stat-card-value,
+[data-dark="true"] .donut-value,
+[data-dark="true"] .stat-number,
+[data-dark="true"] .card-header h3,
+[data-dark="true"] .country-name,
+[data-dark="true"] .country-count {
+    color: #e2e8f0;
+}
+
+[data-dark="true"] .project-item:hover {
+    background: #0f172a;
+}
+
+[data-dark="true"] .card-header,
+[data-dark="true"] .project-item,
+[data-dark="true"] .views-stats {
+    border-bottom-color: #334155;
+}
+
+[data-dark="true"] .filter-btn {
+    background: #334155;
+}
+
+[data-dark="true"] .country-bar {
+    background: #334155;
+}
+
+[data-dark="true"] .chart-container {
+    background: #0f172a;
+}
+</style>
+
+<script>
+// Dashboard main content interactions
+document.addEventListener('DOMContentLoaded', function() {
+    // Filter buttons functionality
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            filterButtons.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+
+    // Animate stat values
+    function animateValues() {
+        const statValues = document.querySelectorAll('.stat-card-value[data-value]');
+        statValues.forEach(element => {
+            const targetValue = parseInt(element.getAttribute('data-value')) || 0;
+            const displayValue = element.textContent;
+            const hasComma = displayValue.includes(',');
+            
+            if (hasComma) {
+                // Animate to the formatted value
+                let currentValue = 0;
+                const increment = targetValue / 30;
+                const interval = setInterval(() => {
+                    currentValue += increment;
+                    if (currentValue >= targetValue) {
+                        element.textContent = targetValue.toLocaleString('en-US');
+                        clearInterval(interval);
+                    } else {
+                        element.textContent = Math.floor(currentValue).toLocaleString('en-US');
+                    }
+                }, 30);
+            }
+        });
+    }
+
+    animateValues();
+
+    // Chart hover tooltips
+    const lineChart = document.querySelector('.line-chart');
+    if (lineChart) {
+        lineChart.style.cursor = 'pointer';
+    }
+});
+
+function updateThemeIcons() {
+    const isDarkMode = localStorage.getItem('dashboard-dark-mode') === 'true';
+    const sunIcons = document.querySelectorAll('.theme-icon-sun');
+    const moonIcons = document.querySelectorAll('.theme-icon-moon');
+    sunIcons.forEach(icon => icon.style.display = isDarkMode ? 'none' : 'block');
+    moonIcons.forEach(icon => icon.style.display = isDarkMode ? 'block' : 'none');
+}
+
+function toggleTheme(theme) {
+    if (theme === 'light') {
+        localStorage.setItem('dashboard-dark-mode', 'false');
+        localStorage.setItem('dashboard-theme', 'light');
+        document.documentElement.removeAttribute('data-dark');
+        document.body.classList.remove('dark');
+    } else if (theme === 'dark') {
+        localStorage.setItem('dashboard-dark-mode', 'true');
+        localStorage.setItem('dashboard-theme', 'dark');
+        document.documentElement.setAttribute('data-dark', 'true');
+        document.body.classList.add('dark');
+    } else if (theme === 'system') {
+        localStorage.setItem('dashboard-theme', 'system');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (prefersDark) {
+            localStorage.setItem('dashboard-dark-mode', 'true');
+            document.documentElement.setAttribute('data-dark', 'true');
+            document.body.classList.add('dark');
+        } else {
+            localStorage.setItem('dashboard-dark-mode', 'false');
+            document.documentElement.removeAttribute('data-dark');
+            document.body.classList.remove('dark');
+        }
+    }
+    updateThemeIcons();
+    document.getElementById('themeMenu').setAttribute('hidden', '');
+}
+
+document.addEventListener('click', function(event) {
+    const themeMenu = document.getElementById('themeMenu');
+    const themeContainer = document.querySelector('.theme-switch-container');
+    if (themeContainer && !themeContainer.contains(event.target) && !themeMenu.hasAttribute('hidden')) {
+        themeMenu.setAttribute('hidden', '');
+    }
+});
+
+window.addEventListener('DOMContentLoaded', updateThemeIcons);
+updateThemeIcons();
+</script>
+
+    <!-- Scripts -->
+    <script src="../SCRIPTS/theme.js"></script>
+    <script src="../SCRIPTS/logout.js"></script>
+    <script src="../SCRIPTS/protected-layout.js"></script>
+</body>
+</html>

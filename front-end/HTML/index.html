@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard Administrateur Moderne</title>
+    <link rel="stylesheet" href="../CSS/style.css" />
+    <link rel="stylesheet" href="../CSS/components.css" />
+    <link rel="stylesheet" href="../CSS/global.css" />
+    <script src="../SCRIPTS/auth.js"></script>
+    <script src="../SCRIPTS/page-protection.js"></script>
+</head>
+<body class="protected-page dashboard-page">
+    <div class="app" id="app">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar__brand">
+                <svg class="sidebar__brand-icon" width="28" height="28" viewBox="0 0 28 28" fill="none">
+                    <rect width="28" height="28" rx="7" fill="url(#gradient-brand)"/>
+                    <path d="M7 14L12 9L18 15L21 12" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                    <defs>
+                        <linearGradient id="gradient-brand" x1="0" y1="0" x2="28" y2="28">
+                            <stop offset="0%" stop-color="#0d6efd"/>
+                            <stop offset="100%" stop-color="#6610f2"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <h1>AdminDash</h1>
+            </div>
+            
+            <nav class="sidebar__nav" aria-label="Navigation principale">
+                <a href="/HTML/index.html" class="sidebar__link sidebar__link--active" data-label="Tableau de bord" data-shortcut="G">
+                    <svg class="sidebar__icon-svg" width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M2 4a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V4zm4.5 6a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm2-2.5a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"/>
+                    </svg>
+                    <span class="sidebar__label">Tableau de bord</span>
+                </a>
+                <a href="/HTML/utilisateurs.html" class="sidebar__link" data-label="Utilisateurs" data-shortcut="U">
+                    <svg class="sidebar__icon-svg" width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"/>
+                    </svg>
+                    <span class="sidebar__label">Utilisateurs</span>
+                </a>
+                <a href="/HTML/statistiques.html" class="sidebar__link" data-label="Statistiques">
+                    <svg class="sidebar__icon-svg" width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+                    </svg>
+                    <span class="sidebar__label">Statistiques</span>
+                </a>
+                <a href="/HTML/transactions.html" class="sidebar__link" data-label="Transactions">
+                    <svg class="sidebar__icon-svg" width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4z"/>
+                    </svg>
+                    <span class="sidebar__label">Transactions</span>
+                </a>
+                <a href="/HTML/parametres.html" class="sidebar__link" data-label="Paramètres" data-shortcut="S">
+                    <svg class="sidebar__icon-svg" width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M10.894 2.553a1 1 0 00-1.788 0l-.894 3.776a1 1 0 01-.949.749H3.645a1 1 0 00-.592 1.82l3.102 2.253a1 1 0 01-.364 1.657L2.163 13.97a1 1 0 001.286 1.471l3.102-2.254a1 1 0 011.658.364l.894 3.776a1 1 0 001.788 0l.894-3.776a1 1 0 01.658-1.657l3.102 2.253a1 1 0 001.286-1.47l-3.102-2.254a1 1 0 01-.364-1.657l3.102-2.253a1 1 0 00-.592-1.82h-3.996a1 1 0 01-.949-.749l-.894-3.776z"/>
+                    </svg>
+                    <span class="sidebar__label">Paramètres</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="main">
+            <!-- Top Bar -->
+            <header class="topbar">
+                <div class="topbar__left">
+                    <button class="btn btn--icon" id="sidebarToggle" aria-label="Ouvrir la barre latérale">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"/>
+                        </svg>
+                    </button>
+                    
+                    <div class="page-heading">
+                        <h2>Tableau de bord</h2>
+                        <p>Vue d'ensemble et actions rapides</p>
+                    </div>
+                </div>
+
+                <div class="topbar__center">
+                    <!-- Global Search Bar -->
+                    <div class="search-container">
+                        <div class="search-input-wrapper">
+                            <svg class="search-icon" width="18" height="18" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"/>
+                            </svg>
+                            <input 
+                                type="text" 
+                                class="search-input" 
+                                id="globalSearch" 
+                                placeholder="Chercher..." 
+                                aria-label="Chercher dans le dashboard"
+                            />
+                        </div>
+                        <div class="search-results" id="searchResults" hidden></div>
+                    </div>
+                </div>
+
+                <div class="topbar__right">
+                    <!-- Notifications Bell Icon -->
+                    <div class="notification-container">
+                        <button class="btn btn--icon notification-btn" id="notificationBell" aria-label="Notifications" type="button">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M10.5 1.5H9.5C5.36 1.5 2 4.86 2 9v4.5L1 16.5h18L18 13.5V9c0-4.14-3.36-7.5-7.5-7.5zm0 13H9.5v1.5h1V14.5zm0-3H9.5V6h1v5.5z"/>
+                            </svg>
+                            <span class="notification-badge" id="notificationBadge">3</span>
+                        </button>
+                        <div class="notification-dropdown" id="notificationDropdown" hidden>
+                            <div class="notification-header" style="padding: 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+                                <h4 style="margin: 0; font-size: 14px; font-weight: 600;">Notifications</h4>
+                                <button class="btn btn--text" id="clearNotifications" style="background: none; border: none; color: #667eea; cursor: pointer; font-size: 12px; font-weight: 600;">Effacer tout</button>
+                            </div>
+                            <div class="notification-list" id="notificationList">
+                                <div class="notification-item" style="padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; gap: 12px;">
+                                    <div class="notification-icon" style="font-size: 20px; flex-shrink: 0;">!</div>
+                                    <div class="notification-content">
+                                        <p class="notification-title" style="margin: 0 0 4px 0; font-weight: 600; color: var(--text); font-size: 13px;">3 nouveaux utilisateurs</p>
+                                        <p class="notification-time" style="margin: 0; color: #6c757d; font-size: 12px;">À l'instant</p>
+                                    </div>
+                                </div>
+                                <div class="notification-item" style="padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; gap: 12px;">
+                                    <div class="notification-icon" style="font-size: 20px; flex-shrink: 0;">✓</div>
+                                    <div class="notification-content">
+                                        <p class="notification-title" style="margin: 0 0 4px 0; font-weight: 600; color: var(--text); font-size: 13px;">Rapport généré</p>
+                                        <p class="notification-time" style="margin: 0; color: #6c757d; font-size: 12px;">Il y a 2h</p>
+                                    </div>
+                                </div>
+                                <div class="notification-item" style="padding: 12px 16px; display: flex; gap: 12px;">
+                                    <div class="notification-icon" style="font-size: 20px; flex-shrink: 0;">⚠</div>
+                                    <div class="notification-content">
+                                        <p class="notification-title" style="margin: 0 0 4px 0; font-weight: 600; color: var(--text); font-size: 13px;">Trafic élevé détecté</p>
+                                        <p class="notification-time" style="margin: 0; color: #6c757d; font-size: 12px;">Il y a 4h</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Theme Switch -->
+                    <div class="theme-switch-container">
+                        <button class="btn btn--icon theme-switch-btn" id="themeToggle" aria-label="Basculer le thème">
+                            <svg class="theme-icon-sun" width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v2a1 1 0 11-2 0V3a1 1 0 011-1zm4.22 1.78a1 1 0 011.414 0l1.414 1.414a1 1 0 01-1.414 1.414L13.22 3.22a1 1 0 010-1.414zm2.828 4.22a1 1 0 011 1v2a1 1 0 11-2 0v-2a1 1 0 011-1zm1.78 4.22a1 1 0 011.414 0l1.414 1.414a1 1 0 01-1.414 1.414l-1.414-1.414a1 1 0 010-1.414zM10 14a4 4 0 110-8 4 4 0 010 8z"/>
+                            </svg>
+                            <svg class="theme-icon-moon" width="20" height="20" viewBox="0 0 20 20" fill="currentColor" style="display: none;">
+                                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
+                            </svg>
+                        </button>
+                        <div class="theme-menu" id="themeMenu" hidden>
+                            <button class="theme-menu-item" data-theme="light">Clair</button>
+                            <button class="theme-menu-item" data-theme="dark">Sombre</button>
+                            <button class="theme-menu-item" data-theme="system">Système</button>
+                        </div>
+                    </div>
+
+                    <!-- Profile Avatar with Dropdown -->
+                    <div class="account-menu">
+                        <button class="avatar avatar--interactive profile-avatar" id="profileAvatar" aria-label="Profil utilisateur" type="button">
+                            <span id="avatarText">AD</span>
+                        </button>
+                        <div class="profile-menu" id="profileMenu" hidden>
+                            <a class="profile-menu__item" href="/HTML/parametres.html">Parametres</a>
+                            <button class="profile-menu__item" id="logoutBtn" data-action="logout" type="button">Deconnexion</button>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Content Area -->
+            <main class="content">
+                <!-- Quick Actions Panel -->
+                <section class="quick-actions" aria-label="Actions rapides" data-modifies-data style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; margin-bottom: 40px;">
+                    <button class="quick-action-btn glass-morph" data-requires-auth data-modal="addUserModal" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; border-radius: 12px; padding: 32px 24px; color: white; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; transition: all 0.2s; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);" onMouseOver="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 25px rgba(102, 126, 234, 0.4)'" onMouseOut="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(102, 126, 234, 0.3)'">
+                        <svg width="32" height="32" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M10.5 1.5H9.5C5.36 1.5 2 4.86 2 9v4.5h16V9c0-4.14-3.36-7.5-7.5-7.5zm0 13H9.5v1.5h1V14.5z"/>
+                        </svg>
+                        <span style="font-size: 16px; font-weight: 600; text-align: center;">Ajouter Utilisateur</span>
+                    </button>
+                    <button class="quick-action-btn glass-morph" data-requires-auth data-modal="createReportModal" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; border-radius: 12px; padding: 32px 24px; color: white; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; transition: all 0.2s; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);" onMouseOver="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 25px rgba(102, 126, 234, 0.4)'" onMouseOut="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(102, 126, 234, 0.3)'">
+                        <svg width="32" height="32" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6z"/>
+                        </svg>
+                        <span style="font-size: 16px; font-weight: 600; text-align: center;">Créer un Rapport</span>
+                    </button>
+                    <button class="quick-action-btn glass-morph" data-requires-auth data-modal="newTransactionModal" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; border-radius: 12px; padding: 32px 24px; color: white; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; transition: all 0.2s; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);" onMouseOver="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 25px rgba(102, 126, 234, 0.4)'" onMouseOut="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(102, 126, 234, 0.3)'">
+                        <svg width="32" height="32" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4z"/>
+                        </svg>
+                        <span style="font-size: 16px; font-weight: 600; text-align: center;">Nouvelle Transaction</span>
+                    </button>
+                </section>
+
+                <!-- KPI Stats Cards -->
+                <section class="stats" aria-label="Statistiques clés">
+                    <article class="card card--elevated" data-auth-only>
+                        <div class="card__header">
+                            <h3 class="card__title">Utilisateurs</h3>
+                            <svg class="card__icon" width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M10 9a3 3 0 100-6 3 3 0 000 6z"/>
+                            </svg>
+                        </div>
+                        <p class="card__value" data-value="1248">1248</p>
+                        <span class="card__delta card__delta--positive">+8% ce mois</span>
+                        <div class="card__chart-mini" id="chart1"></div>
+                    </article>
+                    
+                    <article class="card card--elevated" data-auth-only>
+                        <div class="card__header">
+                            <h3 class="card__title">Ventes</h3>
+                            <svg class="card__icon" width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4z"/>
+                            </svg>
+                        </div>
+                        <p class="card__value" data-value="37540">€ 37,540</p>
+                        <span class="card__delta card__delta--positive">+12% ce mois</span>
+                        <div class="card__chart-mini" id="chart2"></div>
+                    </article>
+                    
+                    <article class="card card--elevated" data-auth-only>
+                        <div class="card__header">
+                            <h3 class="card__title">Sessions</h3>
+                            <svg class="card__icon" width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M2 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H3a1 1 0 01-1-1V4z"/>
+                            </svg>
+                        </div>
+                        <p class="card__value" data-value="82330">82,330</p>
+                        <span class="card__delta card__delta--positive">+5% ce mois</span>
+                        <div class="card__chart-mini" id="chart3"></div>
+                    </article>
+                    
+                    <article class="card card--elevated" data-auth-only>
+                        <div class="card__header">
+                            <h3 class="card__title">Support</h3>
+                            <svg class="card__icon" width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5z"/>
+                            </svg>
+                        </div>
+                        <p class="card__value" data-value="14">14</p>
+                        <span class="card__delta card__delta--negative">-1% ce mois</span>
+                        <div class="card__chart-mini" id="chart4"></div>
+                    </article>
+                </section>
+
+                <!-- KPI Comparison Indicators -->
+                <section class="kpi-indicators" aria-label="Indicateurs de comparaison">
+                    <div class="kpi-card">
+                        <div class="kpi-header">
+                            <h3 class="kpi-title">Performance Comparative</h3>
+                            <div class="period-selector">
+                                <button class="period-btn active" data-period="week">Semaine</button>
+                                <button class="period-btn" data-period="month">Mois</button>
+                                <button class="period-btn" data-period="year">Année</button>
+                            </div>
+                        </div>
+                        <div class="kpi-comparison-grid">
+                            <div class="kpi-item">
+                                <div class="kpi-label">Aujourd'hui</div>
+                                <div class="kpi-bar">
+                                    <div class="kpi-fill" style="width: 65%"></div>
+                                </div>
+                                <div class="kpi-value">2,450</div>
+                            </div>
+                            <div class="kpi-item">
+                                <div class="kpi-label">Hier</div>
+                                <div class="kpi-bar">
+                                    <div class="kpi-fill" style="width: 58%"></div>
+                                </div>
+                                <div class="kpi-value">2,180</div>
+                            </div>
+                            <div class="kpi-item">
+                                <div class="kpi-label">Semaine dernière</div>
+                                <div class="kpi-bar">
+                                    <div class="kpi-fill" style="width: 72%"></div>
+                                </div>
+                                <div class="kpi-value">15,340</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Recent Activity Feed -->
+                <section class="activity-feed" aria-label="Flux d'activité récente">
+                    <div class="activity-header">
+                        <h3>Activité Récente</h3>
+                        <a href="/HTML/utilisateurs.html" class="link-text">Voir tout →</a>
+                    </div>
+                    <div class="activity-list">
+                        <div class="activity-item">
+                            <div class="activity-dot"></div>
+                            <div class="activity-content">
+                                <p class="activity-title">Nouvel utilisateur inscrit</p>
+                                <p class="activity-subtitle">Jean Dupont a rejoint la plateforme</p>
+                                <p class="activity-time">À l'instant</p>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-dot"></div>
+                            <div class="activity-content">
+                                <p class="activity-title">Rapport mensuel généré</p>
+                                <p class="activity-subtitle">Rapport de performance - Mars 2025</p>
+                                <p class="activity-time">Il y a 2 heures</p>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-dot"></div>
+                            <div class="activity-content">
+                                <p class="activity-title">Paramètres système mis à jour</p>
+                                <p class="activity-subtitle">Configuration de sécurité améliorée</p>
+                                <p class="activity-time">Il y a 1 jour</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- User Activity Table -->
+                <section class="table-section">
+                    <div class="table-header">
+                        <h3>Activité des Utilisateurs</h3>
+                        <div class="table-filters">
+                            <div class="badge-wrapper">
+                                <button type="button" class="badge filter-badge badge--success" data-status="Actif">Actif</button>
+                                <button type="button" class="badge-close" data-status="Actif" aria-label="Masquer Actif">✕</button>
+                            </div>
+                            <div class="badge-wrapper">
+                                <button type="button" class="badge filter-badge badge--warning" data-status="En attente">En attente</button>
+                                <button type="button" class="badge-close" data-status="En attente" aria-label="Masquer En attente">✕</button>
+                            </div>
+                            <div class="badge-wrapper">
+                                <button type="button" class="badge filter-badge badge--danger" data-status="Inactif">Inactif</button>
+                                <button type="button" class="badge-close" data-status="Inactif" aria-label="Masquer Inactif">✕</button>
+                            </div>
+                        </div>
+                        <div class="hidden-badges-menu" id="hiddenBadgesMenu"></div>
+                    </div>
+
+                    <div class="table-wrap">
+                        <table class="table" aria-label="Tableau d'utilisateurs">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <input type="checkbox" class="table-checkbox" id="selectAll" aria-label="Sélectionner tous"/>
+                                    </th>
+                                    <th>Nom</th>
+                                    <th>Email</th>
+                                    <th>Rôle</th>
+                                    <th>Statut</th>
+                                    <th>Dernière connexion</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="table-row">
+                                    <td><input type="checkbox" class="table-checkbox row-checkbox"/></td>
+                                    <td><button class="user-name-btn" data-name="Laurent Moreau" data-email="laurent@example.com" data-role="Admin" data-status="Actif">Laurent Moreau</button></td>
+                                    <td>laurent@example.com</td>
+                                    <td>Admin</td>
+                                    <td><span class="badge badge--success">Actif</span></td>
+                                    <td>1h</td>
+                                    <td>
+                                        <button class="btn btn--sm btn--ghost edit-user-btn" aria-label="Éditer">✎</button>
+                                        <button class="btn btn--sm btn--ghost delete-user-btn" aria-label="Supprimer">🗑</button>
+                                    </td>
+                                </tr>
+                                <tr class="table-row">
+                                    <td><input type="checkbox" class="table-checkbox row-checkbox"/></td>
+                                    <td><button class="user-name-btn" data-name="Claire Poulain" data-email="claire@example.com" data-role="Modérateur" data-status="En attente">Claire Poulain</button></td>
+                                    <td>claire@example.com</td>
+                                    <td>Modérateur</td>
+                                    <td><span class="badge badge--warning">En attente</span></td>
+                                    <td>2j</td>
+                                    <td>
+                                        <button class="btn btn--sm btn--ghost edit-user-btn">✎</button>
+                                        <button class="btn btn--sm btn--ghost delete-user-btn">🗑</button>
+                                    </td>
+                                </tr>
+                                <tr class="table-row">
+                                    <td><input type="checkbox" class="table-checkbox row-checkbox"/></td>
+                                    <td><button class="user-name-btn" data-name="Omar Zidane" data-email="omar@example.com" data-role="Utilisateur" data-status="Inactif">Omar Zidane</button></td>
+                                    <td>omar@example.com</td>
+                                    <td>Utilisateur</td>
+                                    <td><span class="badge badge--danger">Inactif</span></td>
+                                    <td>12j</td>
+                                    <td>
+                                        <button class="btn btn--sm btn--ghost edit-user-btn">✎</button>
+                                        <button class="btn btn--sm btn--ghost delete-user-btn">🗑</button>
+                                    </td>
+                                </tr>
+                                <tr class="table-row">
+                                    <td><input type="checkbox" class="table-checkbox row-checkbox"/></td>
+                                    <td><button class="user-name-btn" data-name="Sophie Gareau" data-email="sophie@example.com" data-role="Utilisateur" data-status="Actif">Sophie Gareau</button></td>
+                                    <td>sophie@example.com</td>
+                                    <td>Utilisateur</td>
+                                    <td><span class="badge badge--success">Actif</span></td>
+                                    <td>30m</td>
+                                    <td>
+                                        <button class="btn btn--sm btn--ghost edit-user-btn">✎</button>
+                                        <button class="btn btn--sm btn--ghost delete-user-btn">🗑</button>
+                                    </td>
+                                </tr>
+                                <tr class="table-row">
+                                    <td><input type="checkbox" class="table-checkbox row-checkbox"/></td>
+                                    <td><button class="user-name-btn" data-name="Julien Fontaine" data-email="julien@example.com" data-role="Manager" data-status="Actif">Julien Fontaine</button></td>
+                                    <td>julien@example.com</td>
+                                    <td>Manager</td>
+                                    <td><span class="badge badge--success">Actif</span></td>
+                                    <td>3h</td>
+                                    <td>
+                                        <button class="btn btn--sm btn--ghost edit-user-btn">✎</button>
+                                        <button class="btn btn--sm btn--ghost delete-user-btn">🗑</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Bulk Actions Bar (Hidden by default) -->
+                    <div class="bulk-actions" id="bulkActions" hidden>
+                        <span id="bulkActionCount">0 sélectionné(s)</span>
+                        <button class="btn btn--sm btn--warning">Modifier</button>
+                        <button class="btn btn--sm btn--danger">Supprimer</button>
+                        <button class="btn btn--sm btn--ghost" id="cancelBulkActions">Annuler</button>
+                    </div>
+                </section>
+
+                <!-- Empty State (Hidden by default) -->
+                <div class="empty-state" id="emptyState" hidden>
+                    <div class="empty-state-icon">📭</div>
+                    <h3 class="empty-state-title">Aucune donnée</h3>
+                    <p class="empty-state-description">Aucun utilisateur trouvé. Commencez par en ajouter un.</p>
+                    <button class="btn btn--primary">Ajouter un utilisateur</button>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <!-- Add User Modal -->
+    <div class="modal__overlay" id="addUserModalOverlay" hidden>
+        <div class="modal" id="addUserModal">
+            <div class="modal__header">
+                <h3>Ajouter Utilisateur</h3>
+                <button class="btn btn--icon modal-close-btn" aria-label="Fermer">✕</button>
+            </div>
+            <form id="addUserForm" class="modal__form">
+                <div class="form__group">
+                    <label for="newUserName">Nom:</label>
+                    <input type="text" id="newUserName" required />
+                </div>
+                <div class="form__group">
+                    <label for="newUserEmail">Email:</label>
+                    <input type="email" id="newUserEmail" required />
+                </div>
+                <div class="form__group">
+                    <label for="newUserRole">Rôle:</label>
+                    <select id="newUserRole">
+                        <option value="Utilisateur">Utilisateur</option>
+                        <option value="Modérateur">Modérateur</option>
+                        <option value="Manager">Manager</option>
+                        <option value="Admin">Admin</option>
+                    </select>
+                </div>
+                <div class="form__group">
+                    <label for="newUserStatus">Statut:</label>
+                    <select id="newUserStatus">
+                        <option value="Actif">Actif</option>
+                        <option value="En attente">En attente</option>
+                        <option value="Inactif">Inactif</option>
+                    </select>
+                </div>
+                <div class="modal__actions">
+                    <button type="button" class="btn btn--ghost modal-close-btn">Annuler</button>
+                    <button type="submit" class="btn btn--primary">Ajouter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Create Report Modal -->
+    <div class="modal__overlay" id="createReportModalOverlay" hidden>
+        <div class="modal" id="createReportModal">
+            <div class="modal__header">
+                <h3>Créer un Rapport</h3>
+                <button class="btn btn--icon modal-close-btn" aria-label="Fermer">✕</button>
+            </div>
+            <form id="createReportForm" class="modal__form">
+                <div class="form__group">
+                    <label for="reportTitle">Titre du rapport:</label>
+                    <input type="text" id="reportTitle" required />
+                </div>
+                <div class="form__group">
+                    <label for="reportType">Type de rapport:</label>
+                    <select id="reportType">
+                        <option value="Ventes">Ventes</option>
+                        <option value="Utilisateurs">Utilisateurs</option>
+                        <option value="Transactions">Transactions</option>
+                        <option value="Performance">Performance</option>
+                    </select>
+                </div>
+                <div class="form__group">
+                    <label for="reportPeriod">Période:</label>
+                    <select id="reportPeriod">
+                        <option value="Aujourd'hui">Aujourd'hui</option>
+                        <option value="Cette semaine">Cette semaine</option>
+                        <option value="Ce mois">Ce mois</option>
+                        <option value="Cette année">Cette année</option>
+                    </select>
+                </div>
+                <div class="form__group">
+                    <label for="reportFormat">Format:</label>
+                    <select id="reportFormat">
+                        <option value="PDF">PDF</option>
+                        <option value="Excel">Excel</option>
+                        <option value="CSV">CSV</option>
+                    </select>
+                </div>
+                <div class="modal__actions">
+                    <button type="button" class="btn btn--ghost modal-close-btn">Annuler</button>
+                    <button type="submit" class="btn btn--primary" name="action" value="generate">Générer</button>
+                    <button type="button" class="btn btn--primary" id="downloadReportBtn" aria-label="Télécharger le rapport">Télécharger</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- New Transaction Modal -->
+    <div class="modal__overlay" id="newTransactionModalOverlay" hidden>
+        <div class="modal" id="newTransactionModal">
+            <div class="modal__header">
+                <h3>Nouvelle Transaction</h3>
+                <button class="btn btn--icon modal-close-btn" aria-label="Fermer">✕</button>
+            </div>
+            <form id="newTransactionForm" class="modal__form">
+                <div class="form__group">
+                    <label for="transactionDescription">Description:</label>
+                    <input type="text" id="transactionDescription" required />
+                </div>
+                <div class="form__group">
+                    <label for="transactionAmount">Montant:</label>
+                    <input type="number" id="transactionAmount" step="0.01" required />
+                </div>
+                <div class="form__group">
+                    <label for="transactionType">Type:</label>
+                    <select id="transactionType">
+                        <option value="Entrée">Entrée</option>
+                        <option value="Sortie">Sortie</option>
+                        <option value="Transfert">Transfert</option>
+                    </select>
+                </div>
+                <div class="form__group">
+                    <label for="transactionStatus">Statut:</label>
+                    <select id="transactionStatus">
+                        <option value="En attente">En attente</option>
+                        <option value="Complétée">Complétée</option>
+                        <option value="Échouée">Échouée</option>
+                    </select>
+                </div>
+                <div class="modal__actions">
+                    <button type="button" class="btn btn--ghost modal-close-btn">Annuler</button>
+                    <button type="submit" class="btn btn--primary">Créer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit User Modal -->
+    <div class="modal__overlay" id="modalOverlay" hidden>
+        <div class="modal" id="editUserModal">
+            <div class="modal__header">
+                <h3 id="modalTitle">Modifier l'utilisateur</h3>
+                <button class="btn btn--icon" id="modalClose" aria-label="Fermer">✕</button>
+            </div>
+            <form id="editUserForm" class="modal__form">
+                <div class="form__group">
+                    <label for="userId">ID:</label>
+                    <input type="text" id="userId" disabled />
+                </div>
+                <div class="form__group">
+                    <label for="userName">Nom:</label>
+                    <input type="text" id="userName" />
+                </div>
+                <div class="form__group">
+                    <label for="userEmail">Email:</label>
+                    <input type="email" id="userEmail" disabled />
+                </div>
+                <div class="form__group">
+                    <label for="userRole">Rôle:</label>
+                    <select id="userRole">
+                        <option value="Utilisateur">Utilisateur</option>
+                        <option value="Modérateur">Modérateur</option>
+                        <option value="Manager">Manager</option>
+                        <option value="Admin">Admin</option>
+                    </select>
+                </div>
+                <div class="form__group">
+                    <label for="userStatus">Statut:</label>
+                    <select id="userStatus">
+                        <option value="Actif">Actif</option>
+                        <option value="En attente">En attente</option>
+                        <option value="Inactif">Inactif</option>
+                    </select>
+                </div>
+                <div class="modal__actions">
+                    <button type="button" class="btn btn--ghost" id="modalCancel">Annuler</button>
+                    <button type="submit" class="btn btn--primary">Enregistrer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Confirmation Dialog -->
+    <div class="modal__overlay" id="confirmDialogOverlay" hidden>
+        <div class="modal modal--small" id="confirmDialog">
+            <div class="modal__header">
+                <h3 id="confirmTitle">Confirmer l'action</h3>
+                <button class="btn btn--icon" id="confirmClose">✕</button>
+            </div>
+            <p id="confirmMessage"></p>
+            <div class="modal__actions">
+                <button type="button" class="btn btn--ghost" id="confirmCancel">Annuler</button>
+                <button type="button" class="btn btn--danger" id="confirmDeleteBtn">Supprimer</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        // Number Count-Up Animation
+        function animateNumbers() {
+            const cards = document.querySelectorAll('.card__value');
+            const duration = 2000; // 2 seconds
+            
+            cards.forEach(card => {
+                const finalValue = parseInt(card.getAttribute('data-value')) || 0;
+                const startTime = performance.now();
+                const startValue = 0;
+                
+                function animate(currentTime) {
+                    const elapsed = currentTime - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    
+                    // Easing function for smooth animation
+                    const easeOutQuad = 1 - Math.pow(1 - progress, 2);
+                    const currentValue = Math.floor(startValue + (finalValue - startValue) * easeOutQuad);
+                    
+                    // Format the number based on the final value
+                    let displayText = currentValue.toLocaleString('fr-FR');
+                    
+                    // Add currency symbol if original contains €
+                    if (card.textContent.includes('€')) {
+                        displayText = '€ ' + displayText;
+                    }
+                    
+                    // Add percentage symbol if original contains %
+                    if (card.textContent.includes('%')) {
+                        displayText = displayText + '%';
+                    }
+                    
+                    card.textContent = displayText;
+                    
+                    if (progress < 1) {
+                        requestAnimationFrame(animate);
+                    }
+                }
+                
+                requestAnimationFrame(animate);
+            });
+        }
+        
+        // Start animation when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', animateNumbers);
+        } else {
+            animateNumbers();
+        }
+    </script>
+
+    <script>
+        async function loadDashboardStats() {
+            const avatarText = document.getElementById('avatarText');
+            const profileSession = auth.getStoredSession();
+
+            if (avatarText && profileSession?.name) {
+                avatarText.textContent = profileSession.name.split(' ').map(part => part[0]).join('').substring(0, 2).toUpperCase();
+            }
+
+            try {
+                const stats = await auth.fetchDashboardStats();
+                document.querySelectorAll('.stats .card').forEach(card => {
+                    const title = card.querySelector('.card__title')?.textContent?.trim();
+                    const valueElement = card.querySelector('.card__value');
+                    if (!title || !valueElement) return;
+
+                    if (title === 'Utilisateurs') {
+                        valueElement.textContent = stats.totalUsers ?? 0;
+                    } else if (title === 'Ventes') {
+                        valueElement.textContent = `€ ${Number(stats.totalTransactionAmount || 0).toLocaleString('fr-FR')}`;
+                    } else if (title === 'Sessions') {
+                        valueElement.textContent = stats.totalTransactions ?? 0;
+                    } else if (title === 'Support') {
+                        valueElement.textContent = stats.pendingTransactions ?? 0;
+                    }
+                });
+            } catch (error) {
+                console.error('Unable to load dashboard stats:', error);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadDashboardStats);
+    </script>
+
+    <script src="../SCRIPTS/theme.js"></script>
+    <script src="../SCRIPTS/logout.js"></script>
+    <script src="../SCRIPTS/protected-layout.js"></script>
+    <script src="../SCRIPTS/dashboard.js"></script>
+</body>
+</html>
